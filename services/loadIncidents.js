@@ -29,7 +29,7 @@ class LoadIncidents {
         }
       })
       .finally(() => {
-        console.log("update incidents cicle done");
+        console.log(`update ${DateTime.now().setZone("America/Sao_Paulo").toISO()}`);
       });
   }
 }
