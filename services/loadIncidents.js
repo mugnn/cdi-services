@@ -5,20 +5,31 @@ class LoadIncidents {
   constructor() {
     this.IncidentModel = require("./../models/active_incidents");
     this.incident = require("./../controllers/updateIncidents");
-    this.id = { _id: new ObjectId("667c3a926ab21b0be6fafc75") };
+    this.current_id = { _id: new ObjectId("667c3a926ab21b0be6fafc75") };
+    this.previous_id = { _id: new ObjectId("667c3a926ab21b0be6fafc76") };
   }
 
   update() {
     this.incident()
       .then(async (values) => {
         try {
-          const res = await this.IncidentModel.updateOne(this.id, {
+          const previous_values = await this.IncidentModel.findById(this.current_id).exec();
+
+          const previous = await this.IncidentModel.updateOne(this.previous_id, {
+            date: previous_values.date,
+            new: previous_values.new,
+            progress: previous_values.progress,
+            pending: previous_values.pending,
+            inline: previous_values.inline,
+          });
+          const current = await this.IncidentModel.updateOne(this.current_id, {
             date: DateTime.now().setZone("America/Sao_Paulo").toISO(),
             new: values.new,
             progress: values.progress,
             pending: values.pending,
+            inline: values.inline,
           });
-          console.log(`added: ${res.acknowledged}`);
+          console.log(`added: ${current.acknowledged && previous.acknowledged}`);
         } catch (e) {
           console.log(
             `error: (${String.toString(e).slice(
@@ -29,7 +40,9 @@ class LoadIncidents {
         }
       })
       .finally(() => {
-        console.log(`update ${DateTime.now().setZone("America/Sao_Paulo").toISO()}`);
+        console.log(
+          `update ${DateTime.now().setZone("America/Sao_Paulo").toISO()}`
+        );
       });
   }
 }

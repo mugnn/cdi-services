@@ -6,4 +6,6 @@ const LoadData = async () => {
   /* ... */
 }
 
+LoadData();
+
 setInterval(LoadData, 100000);

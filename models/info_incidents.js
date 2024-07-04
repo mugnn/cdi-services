@@ -1,4 +1,4 @@
-const mongoose = require('./../config/mongodb');
+const mongoose = require('../config/mongodb');
 
 const { Schema } = mongoose;
 
@@ -11,5 +11,6 @@ const incidents = new Schema({
 }, { collection: 'incidents' })
 
 const IncidentsValuesModel = mongoose.model('incidentsValues', incidents);
+
 
 module.exports = IncidentsValuesModel;

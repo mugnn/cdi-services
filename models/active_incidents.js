@@ -19,7 +19,11 @@ const activeIncident = new Schema({
   pending: {
     type: Number,
     required: true
-  }
+  },
+  inline: {
+    type: Array,
+    required: true
+  },
 }, { collection: 'realtime' })
 
 const IncidentModel = mongoose.model('activeIncident', activeIncident);
