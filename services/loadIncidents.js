@@ -9,8 +9,8 @@ class LoadIncidents {
     this.previous_id = { _id: new ObjectId("667c3a926ab21b0be6fafc76") };
   }
 
-  update() {
-    this.incident()
+  async update() {
+    const incidentsList = await this.incident()
       .then(async (values) => {
         try {
           const previous_values = await this.IncidentModel.findById(this.current_id).exec();
@@ -32,6 +32,7 @@ class LoadIncidents {
             incidents: values.incidents,
           });
           console.log(`added: ${current.acknowledged && previous.acknowledged}`);
+          return values.incidents;
         } catch (e) {
           console.log(
             `error: (${String.toString(e).slice(
@@ -46,6 +47,7 @@ class LoadIncidents {
           `update ${DateTime.now().setZone("America/Sao_Paulo").toISO()}`
         );
       });
+    return incidentsList;
   }
 }
 
