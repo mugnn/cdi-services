@@ -21,6 +21,7 @@ class LoadIncidents {
             progress: previous_values.progress,
             pending: previous_values.pending,
             inline: previous_values.inline,
+            incidents: previous_values.incidents,
           });
           const current = await this.IncidentModel.updateOne(this.current_id, {
             date: DateTime.now().setZone("America/Sao_Paulo").toISO(),
@@ -28,6 +29,7 @@ class LoadIncidents {
             progress: values.progress,
             pending: values.pending,
             inline: values.inline,
+            incidents: values.incidents,
           });
           console.log(`added: ${current.acknowledged && previous.acknowledged}`);
         } catch (e) {

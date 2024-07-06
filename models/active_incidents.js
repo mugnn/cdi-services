@@ -24,6 +24,10 @@ const activeIncident = new Schema({
     type: Array,
     required: true
   },
+  incidents: {
+    type: Array,
+    required: true
+  }
 }, { collection: 'realtime' })
 
 const IncidentModel = mongoose.model('activeIncident', activeIncident);

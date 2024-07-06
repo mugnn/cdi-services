@@ -12,6 +12,7 @@ const groups = [
 
 async function updatePendingIncidents() {
   let pending = 0;
+  let pendingList = [];
 
   for (const group of groups) {
     await axios
@@ -22,13 +23,16 @@ async function updatePendingIncidents() {
       .then((response) => {
         const n = response.data.Chamados.length;
         pending += n;
+        for (const obj of response.data.Chamados) {
+          pendingList.push(obj.identificador)
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  return { pending: pending };
+  return { pending: pending, pendingList: pendingList };
 }
 
 async function updateActiveIncidents() {
@@ -74,5 +78,6 @@ module.exports = async function getValues() {
     progress: activeIncidents.progress,
     pending: pendingIncidents.pending,
     inline: activeIncidents.inline,
+    incidents: [...activeIncidents.inline, ...pendingIncidents.pendingList]
   };
 };
