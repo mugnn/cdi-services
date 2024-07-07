@@ -39,6 +39,7 @@ async function updateActiveIncidents() {
   let newCall = 0;
   let progress = 0;
   let inline = [];
+  let ongoing = [];
 
   for (const group of groups) {
     await axios
@@ -50,6 +51,7 @@ async function updateActiveIncidents() {
         for (const obj of response.data.Chamados) {
           if (obj.status === "Em Andamento") {
             progress += 1;
+            ongoing.push(obj.identificador);
           }
           if (obj.status === "Novo") {
             newCall += 1;
@@ -62,7 +64,7 @@ async function updateActiveIncidents() {
       });
   }
 
-  return { new: newCall, progress: progress, inline: inline };
+  return { new: newCall, progress: progress, inline: inline, ongoing: ongoing };
 }
 
 module.exports = async function getValues() {
@@ -78,6 +80,6 @@ module.exports = async function getValues() {
     progress: activeIncidents.progress,
     pending: pendingIncidents.pending,
     inline: activeIncidents.inline,
-    incidents: [...activeIncidents.inline, ...pendingIncidents.pendingList]
+    incidents: [...activeIncidents.ongoing, ...pendingIncidents.pendingList]
   };
 };

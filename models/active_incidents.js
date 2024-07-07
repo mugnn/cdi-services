@@ -20,10 +20,12 @@ const activeIncident = new Schema({
     type: Number,
     required: true
   },
+  // incidentes novos por número (INC0000000)
   inline: {
     type: Array,
     required: true
   },
+  // incidentes em andamento/pendente por número (INC0000000)
   incidents: {
     type: Array,
     required: true

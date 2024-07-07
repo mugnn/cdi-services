@@ -23,7 +23,7 @@ const incidents = new Schema({
     type: String,
     required: true
   },
-  data_atual: {
+  ultima_atualizacao: {
     type: String,
     required: true
   },
@@ -32,6 +32,10 @@ const incidents = new Schema({
     required: true
   },
   analista: {
+    type: String,
+    required: true,
+  },
+  localizacao: {  
     type: String,
     required: true,
   },
@@ -52,7 +56,7 @@ const incidents = new Schema({
     required: true
   },
   sla: {
-    type: Boolean,
+    type: Number,
     required: true
   },
 }, { collection: 'incidents' })

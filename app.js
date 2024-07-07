@@ -11,4 +11,4 @@ const LoadData = async () => {
 
 LoadData();
 
-setInterval(LoadData, 100000);
+setInterval(LoadData, 500000);
