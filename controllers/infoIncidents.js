@@ -11,7 +11,7 @@ const getData = async (inc) => {
       auth
     )
     .then((response) => {
-      return response;
+      return response.data.Chamado;
     })
     .catch((error) => {
       console.log(error);
