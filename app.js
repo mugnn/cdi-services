@@ -1,9 +1,11 @@
 const LoadIncidents = require('./services/loadIncidents');
+const LoadInfo = require('./controllers/infoIncidents')
 
 
 const LoadData = async () => {
   const v = await new LoadIncidents().update();
-  console.log(v)
+  await LoadInfo(v);
+
   /* ... */
 }
 
