@@ -29,7 +29,13 @@ module.exports = async function loadInfo(data) {
   for (let inc of data) {
     if (!incListDB.includes(inc)) {
       const modelData = await getData(inc);
-      console.log(modelData);
+      /* ...add */
+    }
+  }
+
+  for (let inc of incListDB) {
+    if (!data.includes(inc)) {
+      /* ...delete */
     }
   }
 };
