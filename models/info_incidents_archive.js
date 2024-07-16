@@ -60,12 +60,16 @@ const incidents = new Schema({
     required: true
   },
   sla: {
-    type: Number,
+    type: Boolean,
     required: true
   },
-}, { collection: 'incidents' })
+  justificativa: {
+    type: String,
+    required: false
+  },
+}, { collection: 'incidents_archive' })
 
-const IncidentsValuesModel = mongoose.model('incidentsValues', incidents);
+const IncidentsValuesModel = mongoose.model('incidentsValuesArchive', incidents);
 
 
 module.exports = IncidentsValuesModel;
