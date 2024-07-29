@@ -1,3 +1,5 @@
+const { DateTime } = require('luxon');
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 class InfoIncidents {
@@ -143,6 +145,35 @@ class InfoIncidents {
       }
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  monthsDistance(p, c) {
+    if (p > c) {
+      return (12 - p + c) >= 2;
+    } else {
+      return (c - p) >= 2;
+    }
+  }
+
+  async deleteArchived() {
+    try {
+      const docs = await this.ArchiveIncidents.find().exec();
+      const currentMonth = DateTime.now().setZone("America/Sao_Paulo").month;
+      let deletedIncidents = [];
+      for (let obj of docs) {
+        const incidentMonth = new Date(obj.abertura).getMonth() + 1;
+
+        if(this.monthsDistance(incidentMonth, currentMonth)) {
+          await this.ArchiveIncidents.deleteOne({ inc: obj.inc }).exec();
+          deletedIncidents.push(obj.inc);
+        }
+      }
+
+      return deletedIncidents;
+    } catch (e) {
+      console.error(e)
+      return ['error'];
     }
   }
 

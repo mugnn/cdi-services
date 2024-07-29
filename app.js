@@ -1,11 +1,10 @@
 const LoadIncidents = require('./services/loadIncidents');
 const InfoIncidents = require('./controllers/infoIncidents')
-
+const Scheduler = require('node-cron');
 
 const LoadData = async () => {
   const v = await new LoadIncidents().update();
   await new InfoIncidents().loadInfo(v);
-  /* ... */
 }
 
 const UpdateInfoIncidents = async () => {
@@ -16,11 +15,21 @@ const run = async () => {
   await LoadData();
   await UpdateInfoIncidents();
 }
+
 run();
 
-setInterval(async () => {
-  await LoadData()
-}, 360000);
-setInterval(async () => {
+
+Scheduler.schedule('*/6 8-18 * * 1-5', async () => {
+  await LoadData();
+});
+
+Scheduler.schedule('*/20 8-18 * * 1-5', async () => {
   await UpdateInfoIncidents();
-}, 1200000)
+});
+
+Scheduler.schedule('0 0 1 */2 *', async () => {
+  const deletedIncidents = await new InfoIncidents().deleteArchived();
+  console.log(`
+    | (scheduled event) successfull incidents deleted: ${deletedIncidents} |
+  `)
+});
